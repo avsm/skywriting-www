@@ -4,7 +4,7 @@ Skywriting Tutorial
 Skywriting is a task-parallel language and execution engine for programming clusters of computing resources.
 It has a familiar Javascript-like syntax, but with a few changes to adapt it to a parallel environment.
 
-In this intermediate tutorial, we describe how to implement the Smith-Waterman string matching algorithm.
+In this intermediate tutorial, we describe how to implement the [Smith-Waterman](http://en.wikipedia.org/wiki/Smith–Waterman_algorithm) string matching algorithm.
 
 How it works
 ------------
@@ -12,10 +12,24 @@ How it works
 Smith-Waterman uses dynamic programming to obtain the optimal alignment between two strings (useful for example in gene splicing in bioinformatics).
 However for inputs of length *m* and *n*, it requires *O(mn)* time, which limits its usefulness for long DNA sequences.
 
-See this run live on a 10x10 grid: <a href="data/skylight-10x10-2w.html" target="_blank">10x10 2w</a>
+The algorithm computes a cost matrix *H* of which each element *H<sub>i,j</sub>* depends on *H<sub>i-1,j-1</sub>*, *H<sub>i-1,j</sub>* and *H<sub>i,j-1</sub>*.
+At the start of the algorithm, no parallelism is possible, but as the algorithm progresses, a growing "wavefront" of independent values becomes calculable.
+The cost matrix can be divided into sub-matrices, which exhibit the same data dependency pattern.
+
+You can see this visualised on:
+
+* <a href="data/skylight-10x10-2w.html" target="_blank">10x10 grid with 2 workers</a> (uses HTML5 Canvas)
+* <a href="data/skylight-10x10-2w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)
+
+Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
+A task progresses through being constructed (a red node), becoming runnable (a green node), to completing (a gray node).  The colour of the completed nodes represents the *efficiency* of the cluster at the time the task was completed.  If it is white, then all of the workers were fully utilised, and if black, then only a few workers were active.
+The [completed 50x50x50w graph](data/50x50-50w-result.jpg) illustrates how the utilisation is at its best at the diagonal of the grid.
+This is a nice way of getting feedback on how well your algorithms are using parallel resources (and of course, we are planning future Skywriting support for dynamic constructions of workers and VMs on-demand).
 
 Initializing
 ------------
+
+For each block we spawn a Skywriting task that executes the serial Smith-Waterman algorithm using the Java executor, and depends on the outputs of its predecessors1.
 
     :::javascript
     num_rows = 10;
