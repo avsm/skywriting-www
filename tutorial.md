@@ -12,6 +12,7 @@ How it works
 Smith-Waterman uses dynamic programming to obtain the optimal alignment between two strings (useful for example in gene splicing in bioinformatics).
 However for inputs of length *m* and *n*, it requires *O(mn)* time, which limits its usefulness for long DNA sequences.
 
+See this run live on a 10x10 grid: <a href="data/skylight-10x10-2w.html" target="_blank">10x10 2w</a>
 
 Initializing
 ------------
