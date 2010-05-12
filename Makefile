@@ -17,7 +17,7 @@ dev: $(FILES:%=%-b.html)
 	echo "</body>" >> $@
 
 style.css:
-	pygmentize -f html -S colorful -a .codehilite > $@
+	pygmentize -f html -S friendly -a .codehilite > $@
 
 .PHONY: clean
 clean:

@@ -1,5 +1,5 @@
-Tutorial
---------
+Skywriting Tutorial
+-------------------
 
 Skywriting is a task-parallel language and execution engine for programming clusters of computing resources.
 It has a familiar Javascript-like syntax, but with a few changes to adapt it to a parallel environment.
