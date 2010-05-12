@@ -1,10 +1,20 @@
 Skywriting Tutorial
--------------------
+===================
 
 Skywriting is a task-parallel language and execution engine for programming clusters of computing resources.
 It has a familiar Javascript-like syntax, but with a few changes to adapt it to a parallel environment.
 
-In this intermediate tutorial, we describe how to implement the Smith-Waterman string matching algorithm. This is a realistic algorithm often used in biology and bioinformatics.
+In this intermediate tutorial, we describe how to implement the Smith-Waterman string matching algorithm.
+
+How it works
+------------
+
+Smith-Waterman uses dynamic programming to obtain the optimal alignment between two strings (useful for example in gene splicing in bioinformatics).
+However for inputs of length *m* and *n*, it requires *O(mn)* time, which limits its usefulness for long DNA sequences.
+
+
+Initializing
+------------
 
     :::javascript
     num_rows = 10;
@@ -13,6 +23,8 @@ In this intermediate tutorial, we describe how to implement the Smith-Waterman s
     horiz_source = ref("http://www.cl.cam.ac.uk/~dgm36/horizontal_string_random");
     vert_source = ref("http://www.cl.cam.ac.uk/~dgm36/vertical_string_random");
     java_lib = [ref("http://www.cl.cam.ac.uk/~dgm36/dp.jar")];
+
+Explain references
 
     horiz_chunks = spawn_exec("java", {"inputs":[horiz_source], "lib":java_lib, "class":"tests.dp.PartitionInputString", "argv":[]}, num_cols);
     vert_chunks = spawn_exec("java", {"inputs":[vert_source], "lib":java_lib, "class":"tests.dp.PartitionInputString", "argv":[]}, num_rows);
