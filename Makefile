@@ -11,7 +11,7 @@ dev: $(FILES:%=%-b.html)
 	set -e; TITLE="$(head -1 $@)"; \
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' > $@; \
 	echo "<title>$$TITLE</title>" >> $@; \
-	echo "<body" >> $@; \
+	echo "<body>" >> $@; \
 	markdown -v -x codehilite $< >> $@; \
 	echo "</body>" >> $@
 
