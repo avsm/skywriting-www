@@ -55,7 +55,7 @@ for evt in j:
 stamps = res.keys()
 stamps.sort()
 out=[]
-metadata={ 'grid_size': 10, 'max_workers': 2 }
+metadata={ 'grid_size': 10, 'max_workers': 10 }
 for t in stamps:
     out.extend(res[t])
 x = { 'meta' : metadata, 'events': out }

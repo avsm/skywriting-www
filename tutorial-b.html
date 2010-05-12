@@ -74,10 +74,11 @@ However for inputs of length <em>m</em> and <em>n</em>, it requires <em>O(mn)</e
 <p>The algorithm computes a cost matrix <em>H</em> of which each element <em>H<sub>i,j</sub></em> depends on <em>H<sub>i-1,j-1</sub></em>, <em>H<sub>i-1,j</sub></em> and <em>H<sub>i,j-1</sub></em>.
 At the start of the algorithm, no parallelism is possible, but as the algorithm progresses, a growing "wavefront" of independent values becomes calculable.
 The cost matrix can be divided into sub-matrices, which exhibit the same data dependency pattern.</p>
-<p>You can see this visualised on:</p>
+<p>You can see this visualised as a live task <em>(uses HTML5, so a modern Safari, Firefox or Chrome needed)</em>:</p>
 <ul>
-<li><a href="data/skylight-10x10-2w.html" target="_blank">10x10 grid with 2 workers</a> (uses HTML5 Canvas)</li>
-<li><a href="data/skylight-50x50-50w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)</li>
+<li><a href="data/skylight.html?grid=10&workers=2" target="_blank">10x10 grid with 2 workers</a></li>
+<li><a href="data/skylight.html?grid=10&workers=10" target="_blank">10x10 grid with 10 workers</a></li>
+<li><a href="data/skylight.html?grid=50&workers=50" target="_blank">50x50 grid with 50 workers</a> (<a href="data/50x50-50w-result.jpg">jpg</a> result)</li>
 </ul>
 <p>Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
 A task progresses through being constructed (red node), becoming runnable (agreen node), to completing (a gray node).  The colour of the completed nodes represents the <em>efficiency</em> of the cluster at the time the task was completed (white is fully utilised and black is unused).</p>

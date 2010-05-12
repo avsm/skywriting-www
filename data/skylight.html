@@ -2,12 +2,16 @@
 
 <body bgcolor="#EEEEFF"> 
     <script type="text/javascript" src="jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="jquery.query-2.1.7.js"></script>
     <script type="text/javascript" src="raphael-min.js"></script>
     <script type="text/javascript" src="skylight.js"></script>
     <script type="text/javascript"> 
 
     $(document).ready(function() {
-       $.getJSON("10x10-2w.json", Skylight);
+       var grid = $.query.get('grid');
+       var workers = $.query.get('workers');
+     
+       $.getJSON(grid+"x"+grid+"-"+workers+"w.json", Skylight);
     });
 
     </script>

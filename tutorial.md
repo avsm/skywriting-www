@@ -16,15 +16,16 @@ The algorithm computes a cost matrix *H* of which each element *H<sub>i,j</sub>*
 At the start of the algorithm, no parallelism is possible, but as the algorithm progresses, a growing "wavefront" of independent values becomes calculable.
 The cost matrix can be divided into sub-matrices, which exhibit the same data dependency pattern.
 
-You can see this visualised on:
+You can see this visualised as a live task *(uses HTML5, so a modern Safari, Firefox or Chrome needed)*:
 
-* <a href="data/skylight-10x10-2w.html" target="_blank">10x10 grid with 2 workers</a> (uses HTML5 Canvas)
-* <a href="data/skylight-50x50-50w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)
+* <a href="data/skylight.html?grid=10&workers=2" target="_blank">10x10 grid with 2 workers</a>
+* <a href="data/skylight.html?grid=10&workers=10" target="_blank">10x10 grid with 10 workers</a>
+* <a href="data/skylight.html?grid=50&workers=50" target="_blank">50x50 grid with 50 workers</a> ([jpg](data/50x50-50w-result.jpg) result)
 
 Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
 A task progresses through being constructed (red node), becoming runnable (agreen node), to completing (a gray node).  The colour of the completed nodes represents the *efficiency* of the cluster at the time the task was completed (white is fully utilised and black is unused).
 
-Look at the [completed 50x50x50w graph](data/50x50-50w-result.jpg) which shows how the utilisation is at its best at the diagonal of the grid for Smith Waterman.
+Look at the [completed 50x50 graph](data/50x50-50w-result.jpg) which shows how the utilisation is at its best at the diagonal of the grid for Smith Waterman.
 This is a nice way of visualising how well your algorithms are using parallel resources (and of course, we are planning future Skywriting support for dynamic constructions of workers and VMs on-demand).
 
 Initializing
