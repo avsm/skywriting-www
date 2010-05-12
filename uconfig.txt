@@ -1,0 +1,11 @@
+organization="Computer Laboratory",
+webmaster=(name="Derek Murray", email="Derek.Murray@cl.cam.ac.uk", url="http://www.cl.cam.ac.uk/~dgm36/"),
+url="http://www.cl.cam.ac.uk/research/srg/netos/skywriting/",
+style=ucam2008,
+navbar=1,
+navtop=1,
+navtopinclude=1,
+breadcrumbs=1,
+breadcrumbprefix=((href="http://www.cl.cam.ac.uk", "Computer Laboratory"),(href="http://www.cl.cam.ac.uk/research/", "Research"),(href="http://www.cl.cam.ac.uk/research/srg/", "Systems Resear
+ch Group"),(href="http://www.cl.cam.ac.uk/research/srg/netos/", "NetOS Group")),
+
