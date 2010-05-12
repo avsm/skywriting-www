@@ -19,7 +19,7 @@ The cost matrix can be divided into sub-matrices, which exhibit the same data de
 You can see this visualised on:
 
 * <a href="data/skylight-10x10-2w.html" target="_blank">10x10 grid with 2 workers</a> (uses HTML5 Canvas)
-* <a href="data/skylight-10x10-2w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)
+* <a href="data/skylight-50x50-50w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)
 
 Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
 A task progresses through being constructed (a red node), becoming runnable (a green node), to completing (a gray node).  The colour of the completed nodes represents the *efficiency* of the cluster at the time the task was completed.  If it is white, then all of the workers were fully utilised, and if black, then only a few workers were active.
