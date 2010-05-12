@@ -77,12 +77,12 @@ The cost matrix can be divided into sub-matrices, which exhibit the same data de
 <p>You can see this visualised on:</p>
 <ul>
 <li><a href="data/skylight-10x10-2w.html" target="_blank">10x10 grid with 2 workers</a> (uses HTML5 Canvas)</li>
-<li><a href="data/skylight-10x10-2w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)</li>
+<li><a href="data/skylight-50x50-50w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)</li>
 </ul>
 <p>Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
-A task progresses through being constructed (a red node), becoming runnable (a green node), to completing (a gray node).  The colour of the completed nodes represents the <em>efficiency</em> of the cluster at the time the task was completed.  If it is white, then all of the workers were fully utilised, and if black, then only a few workers were active.
-The <a href="data/50x50-50w-result.jpg">completed 50x50x50w graph</a> illustrates how the utilisation is at its best at the diagonal of the grid.
-This is a nice way of getting feedback on how well your algorithms are using parallel resources (and of course, we are planning future Skywriting support for dynamic constructions of workers and VMs on-demand).</p>
+A task progresses through being constructed (red node), becoming runnable (agreen node), to completing (a gray node).  The colour of the completed nodes represents the <em>efficiency</em> of the cluster at the time the task was completed (white is fully utilised and black is unused).</p>
+<p>Look at the <a href="data/50x50-50w-result.jpg">completed 50x50x50w graph</a> which shows how the utilisation is at its best at the diagonal of the grid for Smith Waterman.
+This is a nice way of visualising how well your algorithms are using parallel resources (and of course, we are planning future Skywriting support for dynamic constructions of workers and VMs on-demand).</p>
 <h2>Initializing</h2>
 <p>For each block we spawn a Skywriting task that executes the serial Smith-Waterman algorithm using the Java executor, and depends on the outputs of its predecessors1.</p>
 <div class="codehilite"><pre><span class="nx">num_rows</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>

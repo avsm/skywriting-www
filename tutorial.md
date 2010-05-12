@@ -22,9 +22,10 @@ You can see this visualised on:
 * <a href="data/skylight-50x50-50w.html" target="_blank">50x50 grid with 50 workers</a> (needs a beefy browser)
 
 Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
-A task progresses through being constructed (a red node), becoming runnable (a green node), to completing (a gray node).  The colour of the completed nodes represents the *efficiency* of the cluster at the time the task was completed.  If it is white, then all of the workers were fully utilised, and if black, then only a few workers were active.
-The [completed 50x50x50w graph](data/50x50-50w-result.jpg) illustrates how the utilisation is at its best at the diagonal of the grid.
-This is a nice way of getting feedback on how well your algorithms are using parallel resources (and of course, we are planning future Skywriting support for dynamic constructions of workers and VMs on-demand).
+A task progresses through being constructed (red node), becoming runnable (agreen node), to completing (a gray node).  The colour of the completed nodes represents the *efficiency* of the cluster at the time the task was completed (white is fully utilised and black is unused).
+
+Look at the [completed 50x50x50w graph](data/50x50-50w-result.jpg) which shows how the utilisation is at its best at the diagonal of the grid for Smith Waterman.
+This is a nice way of visualising how well your algorithms are using parallel resources (and of course, we are planning future Skywriting support for dynamic constructions of workers and VMs on-demand).
 
 Initializing
 ------------
