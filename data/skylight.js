@@ -11,7 +11,7 @@ Skylight = function(json) {
     console.log(space_scale);
     if (grid_size == 10) radius = 10;
     else if (grid_size == 50) radius = 5;
-    else if (grid_size == 20) radius = 6;
+    else if (grid_size == 20) radius = 7;
     var padding = radius;
     var with_lines = (radius > 5);
     var data = json.events;

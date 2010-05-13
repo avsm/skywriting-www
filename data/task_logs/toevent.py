@@ -3,18 +3,22 @@
 import json
 import sys
 
-# load all the json files in
+# usag: $0 workers grid_size
+workers = int(sys.argv[1])
+grid_size = int(sys.argv[2])
+
+# load  the json file in
 j=[]
-for i in range(1,len(sys.argv)):
-    with open(sys.argv[1]) as fin:
-        j.extend(json.load(fin))
+fname = "smithwaterman-%d-%d.log" % (workers, grid_size)
+with open(fname) as fin:
+   j.extend(json.load(fin))
 
 evts=[]
 expected_outputs = {} # output_url_id => task_id
 outs={} # task_id => [ input dependencies ]
 res={}
 # discard first events and fix up task ids
-discard=3;
+discard=3
 first_task=None
 
 for evt in j: 
@@ -55,7 +59,7 @@ for evt in j:
 stamps = res.keys()
 stamps.sort()
 out=[]
-metadata={ 'grid_size': 10, 'max_workers': 10 }
+metadata={ 'grid_size': grid_size, 'max_workers': workers }
 for t in stamps:
     out.extend(res[t])
 x = { 'meta' : metadata, 'events': out }
