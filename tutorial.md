@@ -16,11 +16,16 @@ The algorithm computes a cost matrix *H* of which each element *H<sub>i,j</sub>*
 At the start of the algorithm, no parallelism is possible, but as the algorithm progresses, a growing "wavefront" of independent values becomes calculable.
 The cost matrix can be divided into sub-matrices, which exhibit the same data dependency pattern.
 
-You can see this visualised as a live task *(uses HTML5, so a modern Safari, Firefox or Chrome needed)*:
+You can see this visualised as a live animation with a varying task size and number of parallel workers running *(uses HTML5, so a modern Safari, Firefox or Chrome needed)*:
 
-* <a href="data/skylight.html?grid=10&workers=2" target="_blank">10x10 grid with 2 workers</a>
-* <a href="data/skylight.html?grid=10&workers=10" target="_blank">10x10 grid with 10 workers</a>
-* <a href="data/skylight.html?grid=50&workers=50" target="_blank">50x50 grid with 50 workers</a> ([jpg](data/50x50-50w-result.jpg) result)
+<table>
+  <tr><th>Grid Size</th><th colspan="3">Number of Workers</th></tr>
+  <tr><td>10</td><td><a href="data/skylight.html?grid=10&workers=10" target="_blank">10</a></td><td><a href="data/skylight.html?grid=10&workers=20" target="_blank">20</a</td><td><a href="data/skylight.html?grid=10&workers=50" target="_blank">50</a</td></tr>
+  <tr><td>12</td><td><a href="data/skylight.html?grid=12&workers=10" target="_blank">10</a></td><td><a href="data/skylight.html?grid=12&workers=20" target="_blank">20</a</td><td><a href="data/skylight.html?grid=12&workers=50" target="_blank">50</a</td></tr>
+  <tr><td>15</td><td><a href="data/skylight.html?grid=15&workers=10" target="_blank">10</a></td><td><a href="data/skylight.html?grid=15&workers=20" target="_blank">20</a</td><td><a href="data/skylight.html?grid=15&workers=50" target="_blank">50</a</td></tr>
+  <tr><td>17</td><td><a href="data/skylight.html?grid=17&workers=10" target="_blank">10</a></td><td><a href="data/skylight.html?grid=17&workers=20" target="_blank">20</a</td><td><a href="data/skylight.html?grid=17&workers=50" target="_blank">50</a</td></tr>
+  <tr><td>20</td><td><a href="data/skylight.html?grid=20&workers=10" target="_blank">10</a></td><td><a href="data/skylight.html?grid=20&workers=20" target="_blank">20</a</td><td><a href="data/skylight.html?grid=20&workers=50" target="_blank">50</a</td></tr>
+</table>
 
 Each node in the graph represents an execution of the serial Smith-Waterman algorithm on portions of the two strings.
 A task progresses through being constructed (red node), becoming runnable (agreen node), to completing (a gray node).  The colour of the completed nodes represents the *efficiency* of the cluster at the time the task was completed (white is fully utilised and black is unused).

@@ -9,6 +9,7 @@ Skylight = function(json) {
     var total_grid_size=800;
     var space_scale = Math.floor(total_grid_size / grid_size);
     console.log(space_scale);
+    var radius = 7;
     if (grid_size == 10) radius = 10;
     else if (grid_size == 50) radius = 5;
     else if (grid_size == 20) radius = 7;
