@@ -67,7 +67,17 @@ Submit the job by running:
 
 Currently a lot of debugging information gets emitted, this will be quietened as development settles down.
 
-Interactive Console
--------------------
+### Interactive Console
 
-TODO: REPL information
+There is also an interactive console you can use to evaluate Skywriting scripts directly. The `sw-console` script connects to a master, just like a worker does, and drops you into an interactive shell.
+
+    :::bash
+    $ sw-console --master http://click.local:8080
+    (Cmd) function hello() { return "hello world"; }
+    <mrry.mercator.runtime.references.SWNullReference instance at 0x101369b48>
+    (Cmd) x=spawn(hello,[]);
+    <mrry.mercator.runtime.references.SWNullReference instance at 0x1013698c0>
+    (Cmd) return *x;
+    hello world
+
+The console itself is a wrapper to the job submission interface, so you still need to have workers connected to run the interactive commands as you type them in.  If a worker is not available, the console will block until the job is completed.

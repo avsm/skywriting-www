@@ -117,5 +117,16 @@ Of course, you could return the string directly without the intermediate functio
 
 
 <p>Currently a lot of debugging information gets emitted, this will be quietened as development settles down.</p>
-<h2>Interactive Console</h2>
-<p>TODO: REPL information</p></body>
+<h3>Interactive Console</h3>
+<p>There is also an interactive console you can use to evaluate Skywriting scripts directly. The <code>sw-console</code> script connects to a master, just like a worker does, and drops you into an interactive shell.</p>
+<div class="codehilite"><pre><span class="nv">$ </span>sw-console --master http://click.local:8080
+<span class="o">(</span>Cmd<span class="o">)</span> <span class="k">function </span>hello<span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s2">&quot;hello world&quot;</span>; <span class="o">}</span>
+&lt;mrry.mercator.runtime.references.SWNullReference instance at 0x101369b48&gt;
+<span class="o">(</span>Cmd<span class="o">)</span> <span class="nv">x</span><span class="o">=</span>spawn<span class="o">(</span>hello,<span class="o">[])</span>;
+&lt;mrry.mercator.runtime.references.SWNullReference instance at 0x1013698c0&gt;
+<span class="o">(</span>Cmd<span class="o">)</span> <span class="k">return</span> *x;
+hello world
+</pre></div>
+
+
+<p>The console itself is a wrapper to the job submission interface, so you still need to have workers connected to run the interactive commands as you type them in.  If a worker is not available, the console will block until the job is completed.</p></body>
