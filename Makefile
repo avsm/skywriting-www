@@ -1,4 +1,4 @@
-FILES=index tutorial
+FILES=installation tutorial index
 .PHONY: all
 all:
 	/anfs/www/tools/bin/ucampas $(FILES)
