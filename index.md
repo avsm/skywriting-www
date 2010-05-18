@@ -30,3 +30,12 @@ in Proceedings of the Second USENIX Workshop on Hot Topics in Cloud
 Computing (HotCloud 2010), Boston, MA, June 2010 (to appear)
 </li>
 </ul>
+
+Talks
+-----
+
+<ul>
+<li><a href="http://www.slideshare.net/mrry/programming-the-cloud-with-skywriting"><b>Programming the cloud with Skywriting</b></a><br />
+Imperial College, London, 13th May 2010
+</li>
+</ul>
