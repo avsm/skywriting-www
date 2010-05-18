@@ -28,7 +28,8 @@ Communication between these instances happens using HTTP POST and a simple JSON 
 
 The `sw-master` command sets up a master server listening on a port, using the fully-qualified domain name of the host.
 
-    sw-master [-p port]
+    :::bash
+    $ sw-master [-p port]
 
 Note that it does not listen on `localhost` by default, and so you should use the FQDN to address the node.
 It defaults to port `8080`, and do not forget to open up a hole in your firewall so that other worker nodes in the cluster can also see the master.
@@ -41,7 +42,8 @@ Workers never directly communication with each other.
 
 To get started with a single worker, type in:
 
-    sw-worker -m <master uri> -p <port>
+    :::bash
+    $ sw-worker -m <master uri> -p <port>
 
 ### Job Submission
 
@@ -60,7 +62,8 @@ Of course, you could return the string directly without the intermediate functio
 
 Submit the job by running:
 
-   sw-job -m <master uri> <script file>
+    :::bash
+    $ sw-job -m <master uri> <script file>
 
 Currently a lot of debugging information gets emitted, this will be quietened as development settles down.
 
