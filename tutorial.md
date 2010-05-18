@@ -1,5 +1,5 @@
-Skywriting Tutorial
-===================
+Tutorial: Smith-Waterman
+========================
 
 *This is a work-in-progress page and probably not ready for general consumption yet*
 

@@ -7,4 +7,4 @@ navtop=1,
 navtopinclude=1,
 breadcrumbs=1,
 breadcrumbprefix=((href="http://www.cl.cam.ac.uk", "Computer Laboratory"),(href="http://www.cl.cam.ac.uk/research/", "Research"),(href="http://www.cl.cam.ac.uk/research/srg/", "Systems Research Group"),(href="http://www.cl.cam.ac.uk/research/srg/netos/", "NetOS Group")),
-
+installation.html, tutorial.html

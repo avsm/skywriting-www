@@ -1,7 +1,6 @@
-FILES=installation tutorial index
 .PHONY: all
 all:
-	/anfs/www/tools/bin/ucampas $(FILES)
+	/anfs/www/tools/bin/ucampas -r
 
 .PHONY: dev
 dev: $(FILES:%=%-b.html)
