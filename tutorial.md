@@ -1,5 +1,7 @@
-Skywriting Tutorial
-===================
+Tutorial: Smith-Waterman
+========================
+
+*This is a work-in-progress page and probably not ready for general consumption yet*
 
 Skywriting is a task-parallel language and execution engine for programming clusters of computing resources.
 It has a familiar Javascript-like syntax, but with a few changes to adapt it to a parallel environment.
@@ -69,12 +71,12 @@ Meanwhile, the script continues executing, and `horiz_chunks` and `vert_chunks` 
     blocks[0] = [];
 
     blocks[0][0] = spawn_exec("java",  
-           { "argv" : ["tl", 0-1, 0-1, 0-1, 2], "lib" : java_lib, 
+           { "argv" : ["tl", -1, -1, -1, 2], "lib" : java_lib, 
              "class" : "tests.dp.SmithWaterman", "inputs" : [horiz_chunks[0], vert_chunks[0] ]
            }, 3);
     for (j in range(1, num_cols)) {
         blocks[0][j] = spawn_exec("java", 
-           { "argv":["t", 0-1, 0-1, 0-1, 2], "lib" : java_lib, 
+           { "argv":["t", -1, -1, -1, 2], "lib" : java_lib, 
              "class" : "tests.dp.SmithWaterman", 
              "inputs" : [horiz_chunks[j], vert_chunks[0], blocks[0][j-1][2]]
            }, 3);
@@ -90,13 +92,13 @@ explain for loop
     for (i in range(1, num_rows)) {
         blocks[i] = [];
         blocks[i][0] = spawn_exec("java", 
-            { "argv" : ["l", 0-1, 0-1, 0-1, 2], "lib":java_lib, 
+            { "argv" : ["l", -1, -1, -1, 2], "lib":java_lib, 
               "class" : "tests.dp.SmithWaterman", 
               "inputs" : [ horiz_chunks[0], vert_chunks[i], blocks[i-1][0][1] ]
             }, 3);
         for (j in range(1, num_cols)) {
             blocks[i][j] = spawn_exec("java", 
-                { "argv" : ["i", 0-1, 0-1, 0-1, 2], "lib" : java_lib, 
+                { "argv" : ["i", -1, -1, -1, 2], "lib" : java_lib, 
                   "class" : "tests.dp.SmithWaterman",
                   "inputs" : [ horiz_chunks[j], vert_chunks[i], blocks[i-1][j-1][0], 
                                blocks[i-1][j][1], blocks[i][j-1][2] ]
