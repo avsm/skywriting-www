@@ -1,7 +1,7 @@
 Skywriting
 ==========
 
-![Skywriting Logo](images/sw-logo.png) Skywriting is a programming language and execution engine for distributed, parallel computation. Like previous frameworks (such as [MapReduce](http://labs.google.com/papers/mapreduce.html) and [Dryad](http://labs.google.com/papers/mapreduce.html), it masks the complexity of distributed programming. Unlike those frameworks, it offers a full general-purpose programming language for expressing distributed coordination, which enables developers to implement algorithms using arbitrary task structures.
+<img alt="Skywriting Logo" src="images/sw-logo.png" style="border: none"/> Skywriting is a programming language and execution engine for distributed, parallel computation. Like previous frameworks (such as [MapReduce](http://labs.google.com/papers/mapreduce.html) and [Dryad](http://research.microsoft.com/en-us/projects/dryad/)), it masks the complexity of distributed programming. Unlike those frameworks, it offers a full general-purpose programming language for expressing distributed coordination, which enables developers to implement algorithms using arbitrary task structures.
 
 * [Getting Started](installation.html)
 * [Tutorial](tutorial.html)
@@ -10,24 +10,20 @@ Skywriting
 People
 ------
 
-<ul>
-<li><a href="http://www.cl.cam.ac.uk/~dgm36/">Derek Murray</a></li>
-<li><a href="http://www.cl.cam.ac.uk/~ms705/">Malte
-Schwarzkopf</a></li>
-<li><a href="http://www.cl.cam.ac.uk/~cs448/">Chris Smowton</a></li>
-<li><a href="http://www.cl.cam.ac.uk/~avsm2/">Anil
-Madhavapeddy</a></li>
-<li><a href="http://www.cl.cam.ac.uk/~smh22/">Steve Hand</a></li>
-</ul>
+* [Derek Murray](http://www.cl.cam.ac.uk/~dgm36/)
+* [Malte Schwarzkopf](http://www.cl.cam.ac.uk/~ms705/)
+* [Chris Smowton](http://www.cl.cam.ac.uk/~cs448/)
+* [Anil Madhavapeddy](http://www.cl.cam.ac.uk/~avsm2/)
+* [Steve Hand](http://www.cl.cam.ac.uk/~smh22/)
 
 Publications
 ------------
 
 <ul>
-<li><b>Scripting the cloud with Skywriting</b><br />
+<li><b><a href="http://www.cl.cam.ac.uk/~dgm36/publications/2010-murray2010skywriting.pdf">Scripting the cloud with Skywriting</a></b><br />
 Derek G. Murray and Steven Hand <br />
 in Proceedings of the Second USENIX Workshop on Hot Topics in Cloud
-Computing (HotCloud 2010), Boston, MA, June 2010 (to appear)
+Computing (HotCloud 2010), Boston, MA, June 2010 (to appear)<br />
 </li>
 </ul>
 
