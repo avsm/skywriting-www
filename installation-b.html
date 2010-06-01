@@ -64,16 +64,27 @@
 .codehilite .vi { color: #bb60d5 } /* Name.Variable.Instance */
 .codehilite .il { color: #40a070 } /* Literal.Number.Integer.Long */
 </style>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-377063-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 <h1>Getting Started</h1>
 <h2>Downloading</h2>
 <p>Development versions of Skywriting are stored on <a href="http://github.com">Github</a>, with the main repository available <a href="http://github.com/mrry/skywriting">here</a>:</p>
-<div class="codehilite"><pre><span class="nv">$ </span>git checkout http://github.com/mrry/skywriting.git
-</pre></div>
+<div class="codehilite"><pre>$ git checkout http://github.com/mrry/skywriting.git</pre></div>
 
 
 <p>Check this repository out, and then compile and install it using PyPi:</p>
-<div class="codehilite"><pre><span class="nv">$ </span>python setup.py install
-</pre></div>
+<div class="codehilite"><pre>$ python setup.py install</pre></div>
 
 
 <p>This will install the Python libraries, as well as the helper scripts <code>sw-master</code>, <code>sw-worker</code> and <code>sw-job</code>, which are explained below.</p>
@@ -83,8 +94,7 @@
 Communication between these instances happens using HTTP POST and a simple JSON RPC format.</p>
 <h3>Master Setup</h3>
 <p>The <code>sw-master</code> command sets up a master server listening on a port, using the fully-qualified domain name of the host.</p>
-<div class="codehilite"><pre><span class="nv">$ </span>sw-master <span class="o">[</span>-p port<span class="o">]</span>
-</pre></div>
+<div class="codehilite"><pre>$ sw-master [-p port]</pre></div>
 
 
 <p>Note that it does not listen on <code>localhost</code> by default, and so you should use the FQDN to address the node.
@@ -94,39 +104,35 @@ It defaults to port <code>8080</code>, and do not forget to open up a hole in yo
 Workers need to be able to see the master port, and also to receive connections from the master server, so ensure your firewall is suitably configured.
 Workers never directly communication with each other.</p>
 <p>To get started with a single worker, type in:</p>
-<div class="codehilite"><pre><span class="nv">$ </span>sw-worker -m &lt;master uri&gt; -p &lt;port&gt;
-</pre></div>
+<div class="codehilite"><pre>$ sw-worker -m &lt;master uri&gt; -p &lt;port&gt;</pre></div>
 
 
 <h3>Job Submission</h3>
 <p>Now that you have a master and some workers, it is time to submit a job for parallel processing.  There is a script to get you started in <code>src/sw/helloworld.sw</code>:</p>
-<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">hello</span><span class="p">(</span><span class="nx">who</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s2">&quot;hello &quot;</span> <span class="o">+</span> <span class="nx">who</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="codehilite"><pre>function hello(who) {
+    return &quot;hello &quot; + who;
+}
 
-<span class="nx">greeting</span> <span class="o">=</span> <span class="nx">spawn</span><span class="p">(</span><span class="nx">hello</span><span class="p">,[</span><span class="s2">&quot;world&quot;</span><span class="p">]);</span>
-<span class="k">return</span> <span class="o">*</span><span class="nx">greeting</span><span class="p">;</span>
-</pre></div>
+greeting = spawn(hello,[&quot;world&quot;]);
+return *greeting;</pre></div>
 
 
 <p>This illustrates the Javascript-like syntax of Skywriting, and spawns a task which return a static greeting string.
 Of course, you could return the string directly without the intermediate function, but using one lets us test that your master/worker setup is functioning correctly.</p>
 <p>Submit the job by running:</p>
-<div class="codehilite"><pre><span class="nv">$ </span>sw-job -m &lt;master uri&gt; &lt;script file&gt;
-</pre></div>
+<div class="codehilite"><pre>$ sw-job -m &lt;master uri&gt; &lt;script file&gt;</pre></div>
 
 
 <p>Currently a lot of debugging information gets emitted, this will be quietened as development settles down.</p>
 <h3>Interactive Console</h3>
 <p>There is also an interactive console you can use to evaluate Skywriting scripts directly. The <code>sw-console</code> script connects to a master, just like a worker does, and drops you into an interactive shell.</p>
-<div class="codehilite"><pre><span class="nv">$ </span>sw-console --master http://click.local:8080
-<span class="o">(</span>Cmd<span class="o">)</span> <span class="k">function </span>hello<span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s2">&quot;hello world&quot;</span>; <span class="o">}</span>
+<div class="codehilite"><pre>$ sw-console --master http://click.local:8080
+(Cmd) function hello() { return &quot;hello world&quot;; }
 &lt;mrry.mercator.runtime.references.SWNullReference instance at 0x101369b48&gt;
-<span class="o">(</span>Cmd<span class="o">)</span> <span class="nv">x</span><span class="o">=</span>spawn<span class="o">(</span>hello,<span class="o">[])</span>;
+(Cmd) x=spawn(hello,[]);
 &lt;mrry.mercator.runtime.references.SWNullReference instance at 0x1013698c0&gt;
-<span class="o">(</span>Cmd<span class="o">)</span> <span class="k">return</span> *x;
-hello world
-</pre></div>
+(Cmd) return *x;
+hello world</pre></div>
 
 
 <p>The console itself is a wrapper to the job submission interface, so you still need to have workers connected to run the interactive commands as you type them in.  If a worker is not available, the console will block until the job is completed.</p></body>

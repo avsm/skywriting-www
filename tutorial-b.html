@@ -64,6 +64,19 @@
 .codehilite .vi { color: #bb60d5 } /* Name.Variable.Instance */
 .codehilite .il { color: #40a070 } /* Literal.Number.Integer.Long */
 </style>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-377063-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 <h1>Tutorial: Smith-Waterman</h1>
 <p><em>This is a work-in-progress page and probably not ready for general consumption yet</em></p>
 <p>Skywriting is a task-parallel language and execution engine for programming clusters of computing resources.
@@ -91,23 +104,21 @@ A task progresses through being constructed (red node), becoming runnable (green
 This is a nice way of visualising how well your algorithms are using the resources you give it.</p>
 <h2>Initializing</h2>
 <p>We start off the algorithm by defining the size of the grid, and the location of the source data.</p>
-<div class="codehilite"><pre><span class="nx">num_rows</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-<span class="nx">num_cols</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<div class="codehilite"><pre>num_rows = 10;
+num_cols = 10;
 
-<span class="nx">horiz_source</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="s2">&quot;http://www.cl.cam.ac.uk/~dgm36/horizontal_string_random&quot;</span><span class="p">);</span>
-<span class="nx">vert_source</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="s2">&quot;http://www.cl.cam.ac.uk/~dgm36/vertical_string_random&quot;</span><span class="p">);</span>
-<span class="nx">java_lib</span> <span class="o">=</span> <span class="p">[</span><span class="nx">ref</span><span class="p">(</span><span class="s2">&quot;http://www.cl.cam.ac.uk/~dgm36/dp.jar&quot;</span><span class="p">)];</span>
-</pre></div>
+horiz_source = ref(&quot;http://www.cl.cam.ac.uk/~dgm36/horizontal_string_random&quot;);
+vert_source = ref(&quot;http://www.cl.cam.ac.uk/~dgm36/vertical_string_random&quot;);
+java_lib = [ref(&quot;http://www.cl.cam.ac.uk/~dgm36/dp.jar&quot;)];</pre></div>
 
 
 <p>The <code>ref()</code> function constructs a reference, which Skywriting uses to name large amounts of data without loading them.
 Passing a reference as a parameter to a function copies the reference but does not copy the referenced data.
 A Skywriting reference and the data to which it refers are immutable. Once constructed, a reference and its underlying data may be cached across the cluster, to improve efficiency.</p>
-<div class="codehilite"><pre><span class="nx">horiz_chunks</span> <span class="o">=</span> <span class="nx">spawn_exec</span><span class="p">(</span><span class="s2">&quot;java&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="s2">&quot;inputs&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="nx">horiz_source</span><span class="p">],</span> <span class="s2">&quot;lib&quot;</span> <span class="o">:</span> <span class="nx">java_lib</span><span class="p">,</span> 
-    <span class="s2">&quot;class&quot;</span> <span class="o">:</span> <span class="s2">&quot;tests.dp.PartitionInputString&quot;</span><span class="p">,</span> <span class="s2">&quot;argv&quot;</span><span class="o">:</span><span class="p">[]</span> <span class="p">},</span> <span class="nx">num_cols</span><span class="p">);</span>
-<span class="nx">vert_chunks</span> <span class="o">=</span> <span class="nx">spawn_exec</span><span class="p">(</span><span class="s2">&quot;java&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;inputs&quot;</span><span class="o">:</span><span class="p">[</span><span class="nx">vert_source</span><span class="p">],</span> <span class="s2">&quot;lib&quot;</span><span class="o">:</span><span class="nx">java_lib</span><span class="p">,</span> 
-     <span class="s2">&quot;class&quot;</span> <span class="o">:</span> <span class="s2">&quot;tests.dp.PartitionInputString&quot;</span><span class="p">,</span> <span class="s2">&quot;argv&quot;</span><span class="o">:</span><span class="p">[]</span> <span class="p">},</span> <span class="nx">num_rows</span><span class="p">);</span>
-</pre></div>
+<div class="codehilite"><pre>horiz_chunks = spawn_exec(&quot;java&quot;, { &quot;inputs&quot; : [horiz_source], &quot;lib&quot; : java_lib, 
+    &quot;class&quot; : &quot;tests.dp.PartitionInputString&quot;, &quot;argv&quot;:[] }, num_cols);
+vert_chunks = spawn_exec(&quot;java&quot;, {&quot;inputs&quot;:[vert_source], &quot;lib&quot;:java_lib, 
+     &quot;class&quot; : &quot;tests.dp.PartitionInputString&quot;, &quot;argv&quot;:[] }, num_rows);</pre></div>
 
 
 <p>In a Skywriting program, data- and CPU-intensive tasks are delegated to external code.
@@ -116,53 +127,50 @@ The convenience function <code>spawn_exec()</code> used above performs both, and
 <p>All calls to <code>exec()</code> specify the name of an executor plugin to define how to run the code, and the arguments typically include one or more references.
 In the above code, the Java plugin executes a method call that partitions the input strings into 10 chunks.
 Meanwhile, the script continues executing, and <code>horiz_chunks</code> and <code>vert_chunks</code> are references to the output for when it completes.</p>
-<div class="codehilite"><pre><span class="nx">blocks</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="nx">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
+<div class="codehilite"><pre>blocks = [];
+blocks[0] = [];
 
-<span class="nx">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">spawn_exec</span><span class="p">(</span><span class="s2">&quot;java&quot;</span><span class="p">,</span>  
-       <span class="p">{</span> <span class="s2">&quot;argv&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="s2">&quot;tl&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;lib&quot;</span> <span class="o">:</span> <span class="nx">java_lib</span><span class="p">,</span> 
-         <span class="s2">&quot;class&quot;</span> <span class="o">:</span> <span class="s2">&quot;tests.dp.SmithWaterman&quot;</span><span class="p">,</span> <span class="s2">&quot;inputs&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="nx">horiz_chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">vert_chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">]</span>
-       <span class="p">},</span> <span class="mi">3</span><span class="p">);</span>
-<span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">num_cols</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nx">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="nx">spawn_exec</span><span class="p">(</span><span class="s2">&quot;java&quot;</span><span class="p">,</span> 
-       <span class="p">{</span> <span class="s2">&quot;argv&quot;</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;lib&quot;</span> <span class="o">:</span> <span class="nx">java_lib</span><span class="p">,</span> 
-         <span class="s2">&quot;class&quot;</span> <span class="o">:</span> <span class="s2">&quot;tests.dp.SmithWaterman&quot;</span><span class="p">,</span> 
-         <span class="s2">&quot;inputs&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="nx">horiz_chunks</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">vert_chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>
-       <span class="p">},</span> <span class="mi">3</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
+blocks[0][0] = spawn_exec(&quot;java&quot;,  
+       { &quot;argv&quot; : [&quot;tl&quot;, -1, -1, -1, 2], &quot;lib&quot; : java_lib, 
+         &quot;class&quot; : &quot;tests.dp.SmithWaterman&quot;, &quot;inputs&quot; : [horiz_chunks[0], vert_chunks[0] ]
+       }, 3);
+for (j in range(1, num_cols)) {
+    blocks[0][j] = spawn_exec(&quot;java&quot;, 
+       { &quot;argv&quot;:[&quot;t&quot;, -1, -1, -1, 2], &quot;lib&quot; : java_lib, 
+         &quot;class&quot; : &quot;tests.dp.SmithWaterman&quot;, 
+         &quot;inputs&quot; : [horiz_chunks[j], vert_chunks[0], blocks[0][j-1][2]]
+       }, 3);
+}</pre></div>
 
 
 <p>explain for loop</p>
-<div class="codehilite"><pre><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class="codehilite"><pre>i = 0;
+j = 0;
 
-<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">num_rows</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">spawn_exec</span><span class="p">(</span><span class="s2">&quot;java&quot;</span><span class="p">,</span> 
-        <span class="p">{</span> <span class="s2">&quot;argv&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;lib&quot;</span><span class="o">:</span><span class="nx">java_lib</span><span class="p">,</span> 
-          <span class="s2">&quot;class&quot;</span> <span class="o">:</span> <span class="s2">&quot;tests.dp.SmithWaterman&quot;</span><span class="p">,</span> 
-          <span class="s2">&quot;inputs&quot;</span> <span class="o">:</span> <span class="p">[</span> <span class="nx">horiz_chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">vert_chunks</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
-        <span class="p">},</span> <span class="mi">3</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">num_cols</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="nx">spawn_exec</span><span class="p">(</span><span class="s2">&quot;java&quot;</span><span class="p">,</span> 
-            <span class="p">{</span> <span class="s2">&quot;argv&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;lib&quot;</span> <span class="o">:</span> <span class="nx">java_lib</span><span class="p">,</span> 
-              <span class="s2">&quot;class&quot;</span> <span class="o">:</span> <span class="s2">&quot;tests.dp.SmithWaterman&quot;</span><span class="p">,</span>
-              <span class="s2">&quot;inputs&quot;</span> <span class="o">:</span> <span class="p">[</span> <span class="nx">horiz_chunks</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">vert_chunks</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="nx">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
-                           <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="nx">j</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
-            <span class="p">},</span> <span class="mi">3</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
+for (i in range(1, num_rows)) {
+    blocks[i] = [];
+    blocks[i][0] = spawn_exec(&quot;java&quot;, 
+        { &quot;argv&quot; : [&quot;l&quot;, -1, -1, -1, 2], &quot;lib&quot;:java_lib, 
+          &quot;class&quot; : &quot;tests.dp.SmithWaterman&quot;, 
+          &quot;inputs&quot; : [ horiz_chunks[0], vert_chunks[i], blocks[i-1][0][1] ]
+        }, 3);
+    for (j in range(1, num_cols)) {
+        blocks[i][j] = spawn_exec(&quot;java&quot;, 
+            { &quot;argv&quot; : [&quot;i&quot;, -1, -1, -1, 2], &quot;lib&quot; : java_lib, 
+              &quot;class&quot; : &quot;tests.dp.SmithWaterman&quot;,
+              &quot;inputs&quot; : [ horiz_chunks[j], vert_chunks[i], blocks[i-1][j-1][0], 
+                           blocks[i-1][j][1], blocks[i][j-1][2] ]
+            }, 3);
+    }
+}</pre></div>
 
 
 <p>more</p>
-<div class="codehilite"><pre><span class="nx">ignore</span> <span class="o">=</span> <span class="nx">exec</span><span class="p">(</span><span class="s2">&quot;stdinout&quot;</span><span class="p">,</span> 
-    <span class="p">{</span> <span class="s2">&quot;inputs&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="nx">blocks</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> 
-      <span class="s2">&quot;command_line&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="s2">&quot;cat&quot;</span><span class="p">]</span> 
-    <span class="p">},</span> <span class="mi">1</span><span class="p">);</span>
-<span class="k">return</span> <span class="nx">ignore</span><span class="p">;</span>
-</pre></div>
+<div class="codehilite"><pre>ignore = exec(&quot;stdinout&quot;, 
+    { &quot;inputs&quot; : [blocks[i][j][0]], 
+      &quot;command_line&quot; : [&quot;cat&quot;] 
+    }, 1);
+return ignore;</pre></div>
 
 
 <p>Finally, we gather the results and pipe them through the UNIX <code>stdinout</code> executor, which passes the references to a shell script.
